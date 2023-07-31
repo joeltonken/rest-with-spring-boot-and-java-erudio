@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.erudio.controllers.PersonController;
 import br.com.erudio.data.vo.v1.PersonVO;
+import br.com.erudio.exceptions.RequiredObjectIsNullException;
 import br.com.erudio.exceptions.ResourceNotFoundException;
 import br.com.erudio.mapper.DozerMapper;
 import br.com.erudio.model.Person;
@@ -46,6 +47,8 @@ public class PersonServices {
 	
 	public PersonVO create(PersonVO person) {
 		
+		if (person == null) throw new RequiredObjectIsNullException();
+		
 		logger.info("Creating one person!");
 		var entity = DozerMapper.parseObject(person, Person.class);
 		var vo = DozerMapper.parseObject(repository.save(entity), PersonVO.class);
@@ -55,6 +58,8 @@ public class PersonServices {
 	
 	public PersonVO update(PersonVO person) {
 		
+		if (person == null) throw new RequiredObjectIsNullException();
+
 		logger.info("Updating one person!");
 		var entity = repository.findById(person.getKey())
 		.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));

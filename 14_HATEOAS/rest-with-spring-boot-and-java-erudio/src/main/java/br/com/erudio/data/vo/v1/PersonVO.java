@@ -15,7 +15,7 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
 	private static final long serialVersionUID = 1L;
 	
 	@JsonProperty("id")
-	@Mapping("id")
+	@Mapping("id") // funcionalidade apenas do dozer
 	private Long key;
 	private String firstName;
 	private String lastName;

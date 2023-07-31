@@ -11,6 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import br.com.erudio.exceptions.ExceptionResponse;
+import br.com.erudio.exceptions.RequiredObjectIsNullException;
 import br.com.erudio.exceptions.ResourceNotFoundException;
 
 @ControllerAdvice // Diz ao Spring que esse é um controller especial e que potencialmente todos os outros controllers irão usar recursos dele
@@ -39,8 +40,20 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 				new Date(),
 				ex.getMessage(),
 				request.getDescription(false));
-		// Retorna uma response com um status code de BAD_REQUEST (podemos usar qualquer status code)
+		// Retorna uma response com um status code de NOT FOUND (podemos usar qualquer status code)
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
 	}
-	
+
+	// Intercepta as exceções que nós personalizamos
+	@ExceptionHandler(RequiredObjectIsNullException.class)
+	public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(Exception ex, WebRequest request) {
+		
+		// Substitui aquela excessão feia por um JSON
+		ExceptionResponse exceptionResponse = new ExceptionResponse(
+				new Date(),
+				ex.getMessage(),
+				request.getDescription(false));
+		// Retorna uma response com um status code de BAD_REQUEST (podemos usar qualquer status code)
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+	}
 }
