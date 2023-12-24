@@ -52,7 +52,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 				.basePath("/auth/signin")
 					.port(TestsConfigs.SERVER_PORT)
 					.contentType(TestsConfigs.CONTENT_TYPE_JSON)
-				.body(person)
+				.body(user)
 					.when()
 				.post()
 					.then()
