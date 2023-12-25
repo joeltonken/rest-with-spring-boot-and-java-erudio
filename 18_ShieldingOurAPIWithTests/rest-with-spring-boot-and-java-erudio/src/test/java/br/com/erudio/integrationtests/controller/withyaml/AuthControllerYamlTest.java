@@ -1,4 +1,4 @@
-package br.com.erudio.integrationtests.controller.withxml;
+package br.com.erudio.integrationtests.controller.withyaml;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertNotNull;
@@ -19,7 +19,7 @@ import br.com.erudio.integrationtests.vo.TokenVO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(OrderAnnotation.class)
-public class AuthControllerXmlTest extends AbstractIntegrationTest {
+public class AuthControllerYamlTest extends AbstractIntegrationTest {
 
 	private static TokenVO tokenVO;
 
@@ -29,7 +29,7 @@ public class AuthControllerXmlTest extends AbstractIntegrationTest {
 		AccountCredentialsVO user = new AccountCredentialsVO("leandro", "admin123");
 
 		tokenVO = given().basePath("/auth/signin").port(TestsConfigs.SERVER_PORT)
-				.contentType(TestsConfigs.CONTENT_TYPE_XML).body(user).when().post().then().statusCode(200).extract()
+				.contentType(TestsConfigs.CONTENT_TYPE_YML).body(user).when().post().then().statusCode(200).extract()
 				.body().as(TokenVO.class);
 
 		assertNotNull(tokenVO.getAccessToken());
@@ -44,7 +44,7 @@ public class AuthControllerXmlTest extends AbstractIntegrationTest {
 		var newTokenVO = given()
 				.basePath("/auth/refresh")
 				.port(TestsConfigs.SERVER_PORT)
-				.contentType(TestsConfigs.CONTENT_TYPE_XML)
+				.contentType(TestsConfigs.CONTENT_TYPE_YML)
 					.pathParam("username", tokenVO.getUsername())
 					.header(TestsConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + tokenVO.getRefreshToken())
 				.when().put("{username}").then().statusCode(200).extract()
