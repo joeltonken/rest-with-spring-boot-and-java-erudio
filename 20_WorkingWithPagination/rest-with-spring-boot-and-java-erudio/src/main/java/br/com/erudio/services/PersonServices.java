@@ -46,7 +46,7 @@ public class PersonServices {
 
 		Link link = linkTo(
 				methodOn(PersonController.class).findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
-		return assembler.toModel(personVosPage, link) ;
+		return assembler.toModel(personVosPage, link);
 	}
 
 	public PersonVO findById(Long id) {
