@@ -22,7 +22,7 @@ import br.com.erudio.integrationtests.controller.withyaml.mapper.YMLMapper;
 import br.com.erudio.integrationtests.testcontainers.AbstractIntegrationTest;
 import br.com.erudio.integrationtests.vo.AccountCredentialsVO;
 import br.com.erudio.integrationtests.vo.PersonVO;
-import br.com.erudio.integrationtests.vo.wrappers.WrapperPersonVO;
+import br.com.erudio.integrationtests.vo.pagedmodels.PagedModelPerson;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.config.EncoderConfig;
 import io.restassured.config.RestAssuredConfig;
@@ -284,15 +284,16 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 										ContentType.TEXT)))
 				.contentType(TestsConfigs.CONTENT_TYPE_YML)
 				.accept(TestsConfigs.CONTENT_TYPE_YML)
+				.queryParams("page", 3, "size", 10, "direction", "asc")
 					.when()
 					.get()
 				.then()
 					.statusCode(200)
 						.extract()
 						.body()
-						.as(WrapperPersonVO.class, objectMapper);
+						.as(PagedModelPerson.class, objectMapper);
 		
-		var people = wrapper.getEmbedded().getPersons();
+		var people = wrapper.getContent();
 		
 		PersonVO foundPersonOne = people.get(0);
 		
@@ -303,11 +304,11 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 		assertNotNull(foundPersonOne.getGender());
 		assertTrue(foundPersonOne.getEnabled());
 		
-		assertEquals(1, foundPersonOne.getId());
+		assertEquals(675, foundPersonOne.getId());
 		
-		assertEquals("Joelton", foundPersonOne.getFirstName());
-		assertEquals("Gomes", foundPersonOne.getLastName());
-		assertEquals("São Paulo", foundPersonOne.getAddress());
+		assertEquals("Alic", foundPersonOne.getFirstName());
+		assertEquals("Terbrug", foundPersonOne.getLastName());
+		assertEquals("3 Eagle Crest Court", foundPersonOne.getAddress());
 		assertEquals("Male", foundPersonOne.getGender());
 		
 		PersonVO foundPersonFive = people.get(4);
@@ -317,14 +318,14 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 		assertNotNull(foundPersonFive.getLastName());
 		assertNotNull(foundPersonFive.getAddress());
 		assertNotNull(foundPersonFive.getGender());
-		assertTrue(foundPersonFive.getEnabled());
+		assertFalse(foundPersonFive.getEnabled());
 		
-		assertEquals(8, foundPersonFive.getId());
+		assertEquals(712, foundPersonFive.getId());
 		
-		assertEquals("Person name 5", foundPersonFive.getFirstName());
-		assertEquals("Last name 5", foundPersonFive.getLastName());
-		assertEquals("Some address in Brazil 5", foundPersonFive.getAddress());
-		assertEquals("Male", foundPersonFive.getGender());
+		assertEquals("Alla", foundPersonFive.getFirstName());
+		assertEquals("Astall", foundPersonFive.getLastName());
+		assertEquals("72525 Emmet Alley", foundPersonFive.getAddress());
+		assertEquals("Female", foundPersonFive.getGender());
 	}
 	
 	@Test
