@@ -167,6 +167,19 @@ public class PersonControllerCorsJsonTest extends AbstractIntegrationTest {
 		assertNotNull(content);
 		assertEquals("Invalid CORS request", content);
 	}
+	
+	/*@Test
+	@Order(5)
+	public void testDelete() throws JsonMappingException, JsonProcessingException {
+
+		given().spec(specification)
+			.contentType(TestsConfigs.CONTENT_TYPE_JSON)
+				.pathParam("id", person.getId())
+				.when()
+				.delete("{id}")
+			.then()
+				.statusCode(204);
+	}*/ //Se for adicionar esse teste, remover -1 em total elements
 
 	private void mockPerson() {
 		person.setFirstName("Richard");
