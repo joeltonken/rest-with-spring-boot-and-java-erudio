@@ -60,5 +60,29 @@ public class FileController {
 			.collect(Collectors.toList());
 	}
 	
-
+	//MY_file.txt
+	@GetMapping("/downloadFile/{filename:.+}")
+	public ResponseEntity<Resource> downloadFile(
+		@PathVariable String filename, HttpServletRequest request) {
+		
+		logger.info("Reading a file on disk");
+		
+		Resource resource = service.loadFileAsResource(filename);
+		String contentType = "";
+		
+		try {
+			contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+		} catch (Exception e) {
+			logger.info("Could not determine file type!");
+		}
+		
+		if (contentType.isBlank()) contentType = "application/octet-stream";
+		
+		return ResponseEntity.ok()
+			.contentType(MediaType.parseMediaType(contentType))
+			.header(
+				HttpHeaders.CONTENT_DISPOSITION,
+				"attachment; filename=\"" + resource.getFilename() + "\"")
+			.body(resource);
+	}
 }
