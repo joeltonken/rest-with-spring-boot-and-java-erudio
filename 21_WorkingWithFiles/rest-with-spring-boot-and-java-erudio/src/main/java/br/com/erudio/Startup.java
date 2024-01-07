@@ -28,5 +28,4 @@ public class Startup {
 		System.out.println("My hash " + result);
 		System.out.println("My hash result 2 " + result2);*/
 	}
-
 }

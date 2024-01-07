@@ -3,11 +3,11 @@ package br.com.erudio.integrationtests.controller.withyaml;
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -65,7 +65,8 @@ public class AuthControllerYamlTest extends AbstractIntegrationTest {
 	@Test
 	@Order(2)
 	public void testRefresh() throws JsonMappingException, JsonProcessingException {
-		AccountCredentialsVO user = new AccountCredentialsVO("leandro", "admin123");
+		
+		//AccountCredentialsVO user = new AccountCredentialsVO("leandro", "admin123");
 
 		var newTokenVO = given()
 						.config(

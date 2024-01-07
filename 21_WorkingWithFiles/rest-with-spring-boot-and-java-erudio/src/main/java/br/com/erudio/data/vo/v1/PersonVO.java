@@ -1,7 +1,6 @@
 package br.com.erudio.data.vo.v1;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import org.springframework.hateoas.RepresentationModel;
 
@@ -23,7 +22,6 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
 	private String gender;
 	private Boolean enabled;
 
-	
 	public PersonVO() {}
 
 	public Long getKey() {
